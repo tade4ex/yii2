@@ -117,13 +117,6 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionBid()
-    {
-        $bidForm = new BidForm();
-
-        return $this->render('bid', ['model' => $bidForm]);
-    }
-
     /**
      * Displays about page.
      *
