@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ClndrCalendar */
+/* @var $model app\models\Calendar */
 
-$this->title = 'Create Clndr Calendar';
-$this->params['breadcrumbs'][] = ['label' => 'Clndr Calendars', 'url' => ['index']];
+$this->title = Yii::t('app', 'Create Calendar');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Calendars'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="clndr-calendar-create">
+<div class="calendar-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

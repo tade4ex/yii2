@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ClndrAccess */
+/* @var $model app\models\Access */
 
-$this->title = 'Create Clndr Access';
-$this->params['breadcrumbs'][] = ['label' => 'Clndr Accesses', 'url' => ['index']];
+$this->title = Yii::t('app', 'Create Access');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Accesses'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="clndr-access-create">
+<div class="access-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

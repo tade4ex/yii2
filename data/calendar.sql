@@ -19,11 +19,11 @@ CREATE SCHEMA IF NOT EXISTS `yii1` DEFAULT CHARACTER SET utf8 COLLATE utf8_gener
 USE `yii1` ;
 
 -- -----------------------------------------------------
--- Table `yii1`.`clndr_user`
+-- Table `yii1`.`user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `yii1`.`clndr_user` ;
+DROP TABLE IF EXISTS `yii1`.`user` ;
 
-CREATE TABLE IF NOT EXISTS `yii1`.`clndr_user` (
+CREATE TABLE IF NOT EXISTS `yii1`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `username` VARCHAR(128) NOT NULL COMMENT '',
   `name` VARCHAR(45) NOT NULL COMMENT '',
@@ -37,52 +37,53 @@ CREATE TABLE IF NOT EXISTS `yii1`.`clndr_user` (
   UNIQUE INDEX `access_token_UNIQUE` (`access_token` ASC)  COMMENT '')
   ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `yii1`.`clndr_calendar`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `yii1`.`clndr_calendar` ;
-
-CREATE TABLE IF NOT EXISTS `yii1`.`clndr_calendar` (
+CREATE TABLE IF NOT EXISTS `yii1`.`calendar` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `text` TEXT NOT NULL COMMENT '',
   `creator` INT NOT NULL COMMENT '',
   `date_event` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '',
   PRIMARY KEY (`id`)  COMMENT '',
-  INDEX `fk_evrnt_note_1_idx` (`creator` ASC)  COMMENT '',
-  CONSTRAINT `fk_evrnt_note_1`
+  INDEX `fk_note_1_idx` (`creator` ASC)  COMMENT '',
+  CONSTRAINT `fk_note_1`
   FOREIGN KEY (`creator`)
-  REFERENCES `yii1`.`clndr_user` (`id`)
+  REFERENCES `yii1`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `yii1`.`clndr_access`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `yii1`.`clndr_access` ;
-
-CREATE TABLE IF NOT EXISTS `yii1`.`clndr_access` (
+CREATE TABLE IF NOT EXISTS `yii1`.`access` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `user_owner` INT NOT NULL COMMENT '',
   `user_guest` INT NOT NULL COMMENT '',
   `date` DATE NOT NULL COMMENT '',
   PRIMARY KEY (`id`)  COMMENT '',
-  INDEX `fk_clndr_access_1_idx` (`user_owner` ASC)  COMMENT '',
-  INDEX `fk_clndr_access_2_idx` (`user_guest` ASC)  COMMENT '',
-  CONSTRAINT `fk_clndr_access_1`
+  INDEX `fk_access_1_idx` (`user_owner` ASC)  COMMENT '',
+  INDEX `fk_access_2_idx` (`user_guest` ASC)  COMMENT '',
+  CONSTRAINT `fk_access_1`
   FOREIGN KEY (`user_owner`)
-  REFERENCES `yii1`.`clndr_user` (`id`)
+  REFERENCES `yii1`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_clndr_access_2`
+  CONSTRAINT `fk_access_2`
   FOREIGN KEY (`user_guest`)
-  REFERENCES `yii1`.`clndr_user` (`id`)
+  REFERENCES `yii1`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `yii1`.`note` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
+  `text` TEXT NOT NULL COMMENT '',
+  `creator` INT NOT NULL COMMENT '',
+  `date_create` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '',
+  PRIMARY KEY (`id`)  COMMENT '',
+  INDEX `fk_note_1_idx` (`creator` ASC)  COMMENT '',
+  CONSTRAINT `fk_note_1`
+  FOREIGN KEY (`creator`)
+  REFERENCES `yii1`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
