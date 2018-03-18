@@ -2,17 +2,24 @@
 
 namespace app\models\query;
 
+use Yii;
+use yii\db\ActiveQuery;
+
 /**
  * This is the ActiveQuery class for [[\app\models\Access]].
  *
  * @see \app\models\Access
  */
-class AccessQuery extends \yii\db\ActiveQuery
+class AccessQuery extends ActiveQuery
 {
-    /*public function active()
+    /**
+     * @return $this
+     */
+    public function thisUser()
     {
-        return $this->andWhere('[[status]]=1');
-    }*/
+        $this->andWhere(['user_owner' => Yii::$app->user->id]);
+        return $this;
+    }
 
     /**
      * @inheritdoc

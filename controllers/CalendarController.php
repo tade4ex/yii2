@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Calendar;
 use app\models\search\CalendarSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +21,20 @@ class CalendarController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?']
+                    ]
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

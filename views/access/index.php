@@ -1,5 +1,6 @@
 <?php
 
+use app\models\User;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -24,10 +25,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'user_owner',
-            'user_guest',
+            [
+                'format' => 'text',
+                'attribute' => 'user_owner',
+                'value' => function ($model) {
+                    $user = User::findOne($model->user_owner);
+                    return $user->name . ' ' . $user->surname . ' (' . $user->username . ')';
+                }
+            ],
+            [
+                'format' => 'text',
+                'attribute' => 'user_guest',
+                'value' => function ($model) {
+                    $user = User::findOne($model->user_guest);
+                    return $user->name . ' ' . $user->surname . ' (' . $user->username . ')';
+                }
+            ],
             'date',
 
             ['class' => 'yii\grid\ActionColumn'],

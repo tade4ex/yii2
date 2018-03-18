@@ -41,7 +41,7 @@ class AccessSearch extends Access
      */
     public function search($params)
     {
-        $query = Access::find();
+        $query = Access::find()->thisUser() ;
 
         // add conditions that should always apply here
 

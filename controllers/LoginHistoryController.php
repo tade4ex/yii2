@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\LoginHistory;
 use app\models\search\LoginHistorySearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +21,22 @@ class LoginHistoryController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'friendslist', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'actions' => ['index', 'friendslist', 'create', 'update', 'delete'],
+                        'allow' => false,
+                        'roles' => ['?', '@']
+                    ]
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

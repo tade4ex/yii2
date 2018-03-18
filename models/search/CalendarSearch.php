@@ -41,7 +41,7 @@ class CalendarSearch extends Calendar
      */
     public function search($params)
     {
-        $query = Calendar::find();
+        $query = Calendar::find()->accessUsers();
 
         // add conditions that should always apply here
 

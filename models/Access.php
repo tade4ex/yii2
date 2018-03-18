@@ -3,8 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use app\models\query\AccessQuery;
 
-/**
+    /**
  * This is the model class for table "access".
  *
  * @property int $id
@@ -15,7 +17,7 @@ use Yii;
  * @property User $userGuest
  * @property User $userOwner
  */
-class Access extends \yii\db\ActiveRecord
+class Access extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -31,11 +33,9 @@ class Access extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_owner', 'user_guest'], 'required'],
-            [['user_owner', 'user_guest'], 'integer'],
-            [['date'], 'safe'],
+            [['user_guest'], 'required'],
+            [['user_guest'], 'integer'],
             [['user_guest'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_guest' => 'id']],
-            [['user_owner'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_owner' => 'id']],
         ];
     }
 
@@ -50,6 +50,22 @@ class Access extends \yii\db\ActiveRecord
             'user_guest' => Yii::t('app', 'User Guest'),
             'date' => Yii::t('app', 'Date'),
         ];
+    }
+
+    /**
+     * Before save new note creator is current user
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave ($insert)
+    {
+        if ($this->getIsNewRecord())
+        {
+            $this->user_owner = Yii::$app->user->id;
+            $this->date = date('Y-m-d');
+        }
+        parent::beforeSave($insert);
+        return true;
     }
 
     /**
@@ -70,10 +86,10 @@ class Access extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \app\models\query\AccessQuery the active query used by this AR class.
+     * @return AccessQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \app\models\query\AccessQuery(get_called_class());
+        return new AccessQuery(get_called_class());
     }
 }

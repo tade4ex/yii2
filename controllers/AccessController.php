@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Access;
 use app\models\search\AccessSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +21,20 @@ class AccessController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'friendslist', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?']
+                    ]
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
